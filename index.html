@@ -1,1 +1,280 @@
-nông quốc huy
+export default function ReminderVaultApp() {
+  return (
+    <div className="min-h-screen bg-gray-100 p-6 flex items-center justify-center">
+      <div className="w-full max-w-5xl grid md:grid-cols-2 gap-6">
+        <TaskManager />
+        <PasswordVault />
+      </div>
+    </div>
+  )
+}
+
+import React, { useEffect, useState } from 'react'
+import { Card, CardContent } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
+import { Trash2, Lock, Bell } from 'lucide-react'
+
+function TaskManager() {
+  const [tasks, setTasks] = useState([])
+  const [title, setTitle] = useState('')
+  const [note, setNote] = useState('')
+  const [time, setTime] = useState('')
+
+  useEffect(() => {
+    const saved = localStorage.getItem('todo_tasks')
+    if (saved) setTasks(JSON.parse(saved))
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem('todo_tasks', JSON.stringify(tasks))
+  }, [tasks])
+
+  const addTask = () => {
+    if (!title.trim()) return
+
+    const newTask = {
+      id: Date.now(),
+      title,
+      note,
+      time,
+      done: false,
+    }
+
+    setTasks([newTask, ...tasks])
+    setTitle('')
+    setNote('')
+    setTime('')
+  }
+
+  const removeTask = (id) => {
+    setTasks(tasks.filter((t) => t.id !== id))
+  }
+
+  const toggleDone = (id) => {
+    setTasks(
+      tasks.map((t) =>
+        t.id === id ? { ...t, done: !t.done } : t
+      )
+    )
+  }
+
+  return (
+    <Card className="rounded-3xl shadow-xl border-0">
+      <CardContent className="p-6 space-y-5">
+        <div className="flex items-center gap-2">
+          <Bell className="w-6 h-6" />
+          <h2 className="text-2xl font-bold">Nhắc nhở công việc</h2>
+        </div>
+
+        <div className="space-y-3">
+          <Input
+            placeholder="Tên công việc"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+
+          <Textarea
+            placeholder="Ghi chú"
+            value={note}
+            onChange={(e) => setNote(e.target.value)}
+          />
+
+          <Input
+            type="datetime-local"
+            value={time}
+            onChange={(e) => setTime(e.target.value)}
+          />
+
+          <Button className="w-full" onClick={addTask}>
+            Thêm công việc
+          </Button>
+        </div>
+
+        <div className="space-y-3 max-h-[500px] overflow-auto">
+          {tasks.length === 0 && (
+            <div className="text-sm text-gray-500 text-center py-8">
+              Chưa có công việc nào
+            </div>
+          )}
+
+          {tasks.map((task) => (
+            <div
+              key={task.id}
+              className="border rounded-2xl p-4 bg-white shadow-sm"
+            >
+              <div className="flex justify-between items-start gap-3">
+                <div className="flex-1">
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      checked={task.done}
+                      onChange={() => toggleDone(task.id)}
+                    />
+
+                    <h3
+                      className={`font-semibold ${
+                        task.done ? 'line-through text-gray-400' : ''
+                      }`}
+                    >
+                      {task.title}
+                    </h3>
+                  </div>
+
+                  {task.note && (
+                    <p className="text-sm text-gray-600 mt-2 whitespace-pre-wrap">
+                      {task.note}
+                    </p>
+                  )}
+
+                  {task.time && (
+                    <div className="text-xs text-gray-500 mt-2">
+                      ⏰ {new Date(task.time).toLocaleString()}
+                    </div>
+                  )}
+                </div>
+
+                <Button
+                  variant="destructive"
+                  size="icon"
+                  onClick={() => removeTask(task.id)}
+                >
+                  <Trash2 className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </CardContent>
+    </Card>
+  )
+}
+
+function PasswordVault() {
+  const [items, setItems] = useState([])
+  const [website, setWebsite] = useState('')
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [showPasswords, setShowPasswords] = useState(false)
+
+  useEffect(() => {
+    const saved = localStorage.getItem('vault_passwords')
+    if (saved) setItems(JSON.parse(saved))
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem('vault_passwords', JSON.stringify(items))
+  }, [items])
+
+  const addItem = () => {
+    if (!website || !password) return
+
+    const newItem = {
+      id: Date.now(),
+      website,
+      username,
+      password,
+    }
+
+    setItems([newItem, ...items])
+    setWebsite('')
+    setUsername('')
+    setPassword('')
+  }
+
+  const removeItem = (id) => {
+    setItems(items.filter((i) => i.id !== id))
+  }
+
+  return (
+    <Card className="rounded-3xl shadow-xl border-0">
+      <CardContent className="p-6 space-y-5">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Lock className="w-6 h-6" />
+            <h2 className="text-2xl font-bold">Kho mật khẩu</h2>
+          </div>
+
+          <Button
+            variant="outline"
+            onClick={() => setShowPasswords(!showPasswords)}
+          >
+            {showPasswords ? 'Ẩn' : 'Hiện'}
+          </Button>
+        </div>
+
+        <div className="space-y-3">
+          <Input
+            placeholder="Website / Ứng dụng"
+            value={website}
+            onChange={(e) => setWebsite(e.target.value)}
+          />
+
+          <Input
+            placeholder="Tên đăng nhập"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+
+          <Input
+            placeholder="Mật khẩu"
+            type={showPasswords ? 'text' : 'password'}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+
+          <Button className="w-full" onClick={addItem}>
+            Lưu mật khẩu
+          </Button>
+        </div>
+
+        <div className="space-y-3 max-h-[500px] overflow-auto">
+          {items.length === 0 && (
+            <div className="text-sm text-gray-500 text-center py-8">
+              Chưa có mật khẩu nào
+            </div>
+          )}
+
+          {items.map((item) => (
+            <div
+              key={item.id}
+              className="border rounded-2xl p-4 bg-white shadow-sm"
+            >
+              <div className="flex justify-between items-start gap-3">
+                <div className="flex-1 space-y-1">
+                  <div className="font-semibold">{item.website}</div>
+
+                  {item.username && (
+                    <div className="text-sm text-gray-600">
+                      👤 {item.username}
+                    </div>
+                  )}
+
+                  <div className="text-sm break-all">
+                    🔑{' '}
+                    {showPasswords
+                      ? item.password
+                      : '••••••••••••'}
+                  </div>
+                </div>
+
+                <Button
+                  variant="destructive"
+                  size="icon"
+                  onClick={() => removeItem(item.id)}
+                >
+                  <Trash2 className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="text-xs text-gray-500 border-t pt-3">
+          Dữ liệu hiện đang được lưu trong trình duyệt bằng localStorage.
+        </div>
+      </CardContent>
+    </Card>
+  )
+}
