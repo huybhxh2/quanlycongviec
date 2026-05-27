@@ -2,92 +2,201 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quản lý công việc</title>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>📋 Quản lý công việc & mật khẩu | Ứng dụng cá nhân</title>
   <style>
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family:Arial,sans-serif;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: system-ui, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
     }
 
-    body{
-      background:#f3f4f6;
-      padding:20px;
+    body {
+      background: #eef2f5;
+      padding: 24px 20px;
     }
 
-    .container{
-      max-width:1200px;
-      margin:auto;
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-      gap:20px;
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 28px;
+      align-items: start;
     }
 
-    .card{
-      background:white;
-      padding:20px;
-      border-radius:16px;
-      box-shadow:0 2px 10px rgba(0,0,0,0.1);
+    /* thẻ card chính */
+    .card {
+      background: #ffffff;
+      border-radius: 28px;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.02);
+      padding: 24px 22px;
+      transition: transform 0.2s ease, box-shadow 0.2s;
     }
 
-    h1{
-      margin-bottom:20px;
-      font-size:28px;
+    .card:hover {
+      box-shadow: 0 20px 32px rgba(0, 0, 0, 0.12);
     }
 
-    input,
-    textarea{
-      width:100%;
-      padding:12px;
-      margin-top:10px;
-      border:1px solid #ccc;
-      border-radius:10px;
-      font-size:16px;
+    h1 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-left: 5px solid #2563eb;
+      padding-left: 16px;
+      color: #1f2937;
     }
 
-    button{
-      margin-top:10px;
-      padding:12px;
-      border:none;
-      border-radius:10px;
-      background:#2563eb;
-      color:white;
-      font-size:16px;
-      cursor:pointer;
-      width:100%;
+    /* nhóm input */
+    .input-group {
+      margin-bottom: 18px;
     }
 
-    button:hover{
-      opacity:0.9;
+    label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin-bottom: 6px;
+      color: #374151;
     }
 
-    .item{
-      background:#f9fafb;
-      padding:15px;
-      border-radius:12px;
-      margin-top:12px;
-      border:1px solid #e5e7eb;
+    input, textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 18px;
+      font-size: 0.95rem;
+      transition: all 0.2s;
+      background: #fefefe;
+      outline: none;
     }
 
-    .item h3{
-      margin-bottom:8px;
+    input:focus, textarea:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59,130,246,0.2);
     }
 
-    .delete-btn{
-      background:#dc2626;
+    textarea {
+      resize: vertical;
+      min-height: 70px;
     }
 
-    .time{
-      font-size:13px;
-      color:#666;
-      margin-top:6px;
+    button {
+      margin-top: 12px;
+      padding: 12px 16px;
+      border: none;
+      border-radius: 40px;
+      background: #2563eb;
+      color: white;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
 
-    .password{
-      word-break:break-all;
+    button:hover {
+      background: #1d4ed8;
+      transform: scale(0.98);
+      box-shadow: 0 4px 12px rgba(37,99,235,0.3);
+    }
+
+    .delete-btn {
+      background: #ef4444;
+      margin-top: 12px;
+      width: auto;
+      padding: 8px 16px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .delete-btn:hover {
+      background: #dc2626;
+      transform: none;
+    }
+
+    /* danh sách item */
+    .item {
+      background: #fafcff;
+      padding: 18px;
+      border-radius: 24px;
+      margin-top: 16px;
+      border: 1px solid #eef2ff;
+      transition: all 0.15s;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+    }
+
+    .item h3 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 8px;
+      word-break: break-word;
+    }
+
+    .item p {
+      color: #334155;
+      margin: 6px 0;
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+
+    .time {
+      font-size: 0.75rem;
+      color: #4b5563;
+      background: #f1f5f9;
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 30px;
+      margin-top: 10px;
+    }
+
+    .password {
+      font-family: monospace;
+      background: #f1f5f9;
+      padding: 6px 12px;
+      border-radius: 20px;
+      display: inline-block;
+      letter-spacing: 0.3px;
+      word-break: break-all;
+    }
+
+    .empty-message {
+      text-align: center;
+      color: #94a3b8;
+      padding: 32px 16px;
+      font-style: italic;
+      background: #f8fafc;
+      border-radius: 28px;
+      margin-top: 16px;
+    }
+
+    hr {
+      margin: 12px 0;
+      border-color: #eef2ff;
+    }
+
+    .badge-icon {
+      background: #eef2ff;
+      border-radius: 40px;
+      padding: 4px 8px;
+      font-size: 0.7rem;
+      font-weight: normal;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 0.75rem;
+      color: #6c757d;
     }
   </style>
 </head>
@@ -95,256 +204,277 @@
 
 <div class="container">
 
-  <!-- Công việc -->
+  <!-- KHỐI CÔNG VIỆC -->
   <div class="card">
-
     <h1>📋 Nhắc nhở công việc</h1>
 
-    <input
-      id="taskTitle"
-      placeholder="Tên công việc"
-    >
+    <div class="input-group">
+      <label>📌 Tên công việc <span style="color:#ef4444;">*</span></label>
+      <input id="taskTitle" placeholder="Ví dụ: Họp nhóm, Nộp báo cáo..." autocomplete="off">
+    </div>
 
-    <textarea
-      id="taskNote"
-      placeholder="Ghi chú"
-    ></textarea>
+    <div class="input-group">
+      <label>📝 Ghi chú (tuỳ chọn)</label>
+      <textarea id="taskNote" placeholder="Mô tả chi tiết, link, ghi chú thêm..."></textarea>
+    </div>
 
-    <input
-      type="datetime-local"
-      id="taskTime"
-    >
+    <div class="input-group">
+      <label>⏰ Thời gian nhắc (tuỳ chọn)</label>
+      <input type="datetime-local" id="taskTime">
+    </div>
 
     <button onclick="addTask()">
-      Thêm công việc
+      ✨ Thêm công việc
     </button>
 
-    <div id="taskList"></div>
-
+    <div id="taskList" style="margin-top: 10px;"></div>
   </div>
 
-  <!-- Mật khẩu -->
+  <!-- KHỐI MẬT KHẨU ỨNG DỤNG -->
   <div class="card">
-
     <h1>🔐 Mật khẩu ứng dụng</h1>
 
-    <input
-      id="appName"
-      placeholder="Tên ứng dụng / website"
-    >
+    <div class="input-group">
+      <label>🌐 Tên ứng dụng / Website <span style="color:#ef4444;">*</span></label>
+      <input id="appName" placeholder="Ví dụ: Google, Facebook, Ngân hàng..." autocomplete="off">
+    </div>
 
-    <input
-      id="username"
-      placeholder="Tên đăng nhập"
-    >
+    <div class="input-group">
+      <label>👤 Tên đăng nhập / Email</label>
+      <input id="username" placeholder="Tài khoản hoặc email" autocomplete="off">
+    </div>
 
-    <input
-      id="password"
-      placeholder="Mật khẩu"
-    >
+    <div class="input-group">
+      <label>🔑 Mật khẩu <span style="color:#ef4444;">*</span></label>
+      <input type="text" id="password" placeholder="Nhập mật khẩu (hiển thị rõ)" autocomplete="off">
+    </div>
 
     <button onclick="addPassword()">
-      Lưu mật khẩu
+      💾 Lưu mật khẩu
     </button>
 
-    <div id="passwordList"></div>
-
+    <div id="passwordList" style="margin-top: 10px;"></div>
   </div>
-
 </div>
 
+<footer>
+  📌 Dữ liệu được lưu trong trình duyệt của bạn (LocalStorage) — không gửi đi đâu cả
+</footer>
+
 <script>
+  // ========================
+  // 1. QUẢN LÝ CÔNG VIỆC (tasks)
+  // ========================
+  let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
-  // ======================
-  // CÔNG VIỆC
-  // ======================
+  // Hàm hiển thị danh sách công việc
+  function renderTasks() {
+    const taskListEl = document.getElementById("taskList");
+    if (!taskListEl) return;
 
-  let tasks =
-    JSON.parse(localStorage.getItem("tasks")) || [];
-
-  function renderTasks(){
-
-    const taskList =
-      document.getElementById("taskList");
-
-    taskList.innerHTML = "";
-
-    tasks.forEach((task,index)=>{
-
-      taskList.innerHTML += `
-        <div class="item">
-
-          <h3>
-            ${task.title}
-          </h3>
-
-          <p>
-            ${task.note || ""}
-          </p>
-
-          ${
-            task.time
-            ?
-            `<div class="time">
-              ⏰ ${new Date(task.time).toLocaleString()}
-            </div>`
-            :
-            ""
-          }
-
-          <button
-            class="delete-btn"
-            onclick="deleteTask(${index})"
-          >
-            Xóa
-          </button>
-
-        </div>
-      `;
-    });
-  }
-
-  function addTask(){
-
-    const title =
-      document.getElementById("taskTitle").value;
-
-    const note =
-      document.getElementById("taskNote").value;
-
-    const time =
-      document.getElementById("taskTime").value;
-
-    if(!title){
-      alert("Nhập tên công việc");
+    if (tasks.length === 0) {
+      taskListEl.innerHTML = `<div class="empty-message">✨ Chưa có công việc nào. Hãy thêm công việc đầu tiên!</div>`;
       return;
     }
 
+    let html = "";
+    tasks.forEach((task, index) => {
+      // Xử lý hiển thị thời gian nếu có
+      let timeHtml = "";
+      if (task.time && task.time.trim() !== "") {
+        try {
+          const formattedDate = new Date(task.time).toLocaleString('vi-VN', {
+            dateStyle: 'full',
+            timeStyle: 'short'
+          });
+          timeHtml = `<div class="time">⏰ ${formattedDate}</div>`;
+        } catch(e) {
+          timeHtml = `<div class="time">⏰ ${task.time}</div>`;
+        }
+      }
+
+      const noteHtml = task.note ? `<p>📋 ${escapeHtml(task.note)}</p>` : "";
+
+      html += `
+        <div class="item">
+          <h3>✅ ${escapeHtml(task.title)}</h3>
+          ${noteHtml}
+          ${timeHtml}
+          <button class="delete-btn" onclick="deleteTask(${index})">🗑 Xóa công việc</button>
+        </div>
+      `;
+    });
+    taskListEl.innerHTML = html;
+  }
+
+  // Thêm công việc mới
+  function addTask() {
+    const titleInput = document.getElementById("taskTitle");
+    const noteInput = document.getElementById("taskNote");
+    const timeInput = document.getElementById("taskTime");
+
+    let title = titleInput.value.trim();
+    if (!title) {
+      alert("❌ Vui lòng nhập tên công việc!");
+      return;
+    }
+
+    const note = noteInput.value.trim();
+    const timeValue = timeInput.value;  // định dạng "YYYY-MM-DDThh:mm"
+
+    // Thêm vào đầu danh sách (unshift)
     tasks.unshift({
-      title,
-      note,
-      time
+      title: title,
+      note: note,
+      time: timeValue
     });
 
-    localStorage.setItem(
-      "tasks",
-      JSON.stringify(tasks)
-    );
+    // Lưu vào localStorage
+    localStorage.setItem("tasks", JSON.stringify(tasks));
 
-    document.getElementById("taskTitle").value = "";
-    document.getElementById("taskNote").value = "";
-    document.getElementById("taskTime").value = "";
-
-    renderTasks();
-  }
-
-  function deleteTask(index){
-
-    tasks.splice(index,1);
-
-    localStorage.setItem(
-      "tasks",
-      JSON.stringify(tasks)
-    );
+    // Reset form
+    titleInput.value = "";
+    noteInput.value = "";
+    timeInput.value = "";
 
     renderTasks();
   }
 
-  renderTasks();
+  // Xóa công việc theo index
+  function deleteTask(index) {
+    if (confirm("Bạn có chắc muốn xóa công việc này không?")) {
+      tasks.splice(index, 1);
+      localStorage.setItem("tasks", JSON.stringify(tasks));
+      renderTasks();
+    }
+  }
 
+  // ========================
+  // 2. QUẢN LÝ MẬT KHẨU (passwords)
+  // ========================
+  let passwords = JSON.parse(localStorage.getItem("passwords")) || [];
 
-  // ======================
-  // MẬT KHẨU
-  // ======================
+  function renderPasswords() {
+    const passwordListEl = document.getElementById("passwordList");
+    if (!passwordListEl) return;
 
-  let passwords =
-    JSON.parse(localStorage.getItem("passwords")) || [];
+    if (passwords.length === 0) {
+      passwordListEl.innerHTML = `<div class="empty-message">🔒 Chưa có mật khẩu nào. Hãy lưu tài khoản đầu tiên!</div>`;
+      return;
+    }
 
-  function renderPasswords(){
-
-    const passwordList =
-      document.getElementById("passwordList");
-
-    passwordList.innerHTML = "";
-
-    passwords.forEach((item,index)=>{
-
-      passwordList.innerHTML += `
+    let html = "";
+    passwords.forEach((item, index) => {
+      const usernameDisplay = item.username ? `<p>👤 ${escapeHtml(item.username)}</p>` : `<p>👤 <em>(không có tên đăng nhập)</em></p>`;
+      html += `
         <div class="item">
-
-          <h3>
-            ${item.appName}
-          </h3>
-
-          <p>
-            👤 ${item.username || ""}
-          </p>
-
-          <p class="password">
-            🔑 ${item.password}
-          </p>
-
-          <button
-            class="delete-btn"
-            onclick="deletePassword(${index})"
-          >
-            Xóa
-          </button>
-
+          <h3>🌐 ${escapeHtml(item.appName)}</h3>
+          ${usernameDisplay}
+          <p class="password">🔑 ${escapeHtml(item.password)}</p>
+          <button class="delete-btn" onclick="deletePassword(${index})">🗑 Xóa mật khẩu</button>
         </div>
       `;
     });
+    passwordListEl.innerHTML = html;
   }
 
-  function addPassword(){
+  function addPassword() {
+    const appNameInput = document.getElementById("appName");
+    const usernameInput = document.getElementById("username");
+    const passwordInput = document.getElementById("password");
 
-    const appName =
-      document.getElementById("appName").value;
+    let appName = appNameInput.value.trim();
+    let password = passwordInput.value.trim();
 
-    const username =
-      document.getElementById("username").value;
-
-    const password =
-      document.getElementById("password").value;
-
-    if(!appName || !password){
-      alert("Nhập đủ thông tin");
+    if (!appName) {
+      alert("❌ Vui lòng nhập tên ứng dụng / website!");
       return;
     }
+    if (!password) {
+      alert("❌ Vui lòng nhập mật khẩu!");
+      return;
+    }
+
+    const username = usernameInput.value.trim();
 
     passwords.unshift({
-      appName,
-      username,
-      password
+      appName: appName,
+      username: username,
+      password: password
     });
 
-    localStorage.setItem(
-      "passwords",
-      JSON.stringify(passwords)
-    );
+    localStorage.setItem("passwords", JSON.stringify(passwords));
 
-    document.getElementById("appName").value = "";
-    document.getElementById("username").value = "";
-    document.getElementById("password").value = "";
+    // Reset form
+    appNameInput.value = "";
+    usernameInput.value = "";
+    passwordInput.value = "";
 
     renderPasswords();
   }
 
-  function deletePassword(index){
-
-    passwords.splice(index,1);
-
-    localStorage.setItem(
-      "passwords",
-      JSON.stringify(passwords)
-    );
-
-    renderPasswords();
+  function deletePassword(index) {
+    if (confirm("⚠️ Xóa mật khẩu này? Hành động không thể hoàn tác.")) {
+      passwords.splice(index, 1);
+      localStorage.setItem("passwords", JSON.stringify(passwords));
+      renderPasswords();
+    }
   }
 
+  // Helper: bảo vệ chống XSS đơn giản
+  function escapeHtml(str) {
+    if (!str) return "";
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  // Khởi tạo render khi trang tải
+  renderTasks();
   renderPasswords();
 
-</script>
+  // (tuỳ chọn) Tự động kiểm tra thời gian nhắc gần – thông báo trình duyệt (không bắt buộc nhưng tăng trải nghiệm)
+  function checkUpcomingTasks() {
+    if (!("Notification" in window)) return;
+    if (Notification.permission === "default") {
+      Notification.requestPermission();
+    }
+    const now = new Date();
+    tasks.forEach(task => {
+      if (task.time && task.time.trim() !== "") {
+        const taskDate = new Date(task.time);
+        if (!isNaN(taskDate.getTime())) {
+          const diffMs = taskDate - now;
+          // Nếu thời gian nằm trong vòng 1 phút tới và chưa quá 5 giây (chỉ thông báo 1 lần trong phiên)
+          if (diffMs > 0 && diffMs <= 60000) {
+            const timeoutKey = `notified_${task.title}_${task.time}`;
+            if (!sessionStorage.getItem(timeoutKey)) {
+              setTimeout(() => {
+                if (Notification.permission === "granted") {
+                  new Notification("🔔 Nhắc nhở công việc", {
+                    body: `Công việc: ${task.title} sắp đến giờ!`,
+                    icon: "https://cdn-icons-png.flaticon.com/512/1995/1995572.png"
+                  });
+                }
+                sessionStorage.setItem(timeoutKey, "true");
+              }, 100);
+            }
+          }
+        }
+      }
+    });
+  }
 
+  // Kiểm tra mỗi 30 giây nếu có thông báo
+  setInterval(() => {
+    if (tasks.length > 0) checkUpcomingTasks();
+  }, 30000);
+  
+  // kiểm tra ngay khi tải trang
+  setTimeout(() => checkUpcomingTasks(), 2000);
+</script>
 </body>
 </html>
